@@ -1,36 +1,7 @@
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
+import { useRouter } from "next/router";
+import React from "react";
 import appConfig from "../config.json";
-
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: "Open Sans", sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  );
-}
 
 function Title(props) {
   const Tag = props.tag || "h1";
@@ -62,11 +33,12 @@ function Title(props) {
 // export default HomePage
 
 export default function HomePage() {
-  const username = "shioheii";
+  // const username = "shioheii";
+  const [username, setUsername] = React.useState("shioheii");
+  const roteamento = useRouter();
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: "flex",
@@ -101,6 +73,16 @@ export default function HomePage() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (infosDoEvento) {
+              infosDoEvento.preventDefault();
+              console.log("submeteu formulario");
+
+              // A linha de baixo muda a página sem fazer refresh
+              roteamento.push("/chat");
+
+              // A linha de baixo muda de página, mas faz refresh da página toda
+              // window.location.href = "./chat";
+            }}
             styleSheet={{
               display: "flex",
               flexDirection: "column",
@@ -122,7 +104,21 @@ export default function HomePage() {
               {appConfig.name}
             </Text>
 
+            {/* <input
+              type="text"
+              value={username}
+              onChange={function (event) {
+                const valor = event.target.value;
+                setUsername(valor);
+              }}
+            /> */}
             <TextField
+              value={username}
+              onChange={function (event) {
+                const valor = event.target.value;
+                setUsername(valor);
+                console.log(valor);
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
