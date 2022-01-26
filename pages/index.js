@@ -19,7 +19,6 @@ function Title(props) {
   );
 }
 
-// Componente React
 // function HomePage() {
 //     // JSX
 //     return (
