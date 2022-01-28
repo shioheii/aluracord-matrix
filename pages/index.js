@@ -35,7 +35,7 @@ function Title(props) {
 
 export default function HomePage() {
   // const username = "shioheii";
-  const [username, setUsername] = React.useState("shioheii");
+  const [username, setUsername] = React.useState("");
   const roteamento = useRouter();
 
   const getUserImage = () =>
