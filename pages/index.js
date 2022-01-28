@@ -1,7 +1,9 @@
-import { Box, Button, Text, TextField, Image } from "@skynexui/components";
+import { Box, Button, Text, TextField } from "@skynexui/components";
 import { useRouter } from "next/router";
 import React from "react";
 import appConfig from "../config.json";
+import Image from "next/image";
+import userUndefinedImage from "../src/assets/user.png";
 
 function Title(props) {
   const Tag = props.tag || "h1";
@@ -35,6 +37,13 @@ export default function HomePage() {
   // const username = "shioheii";
   const [username, setUsername] = React.useState("shioheii");
   const roteamento = useRouter();
+
+  const getUserImage = () =>
+    username.length > 2
+      ? `https://github.com/${username}.png`
+      : userUndefinedImage;
+  const getUsername = () =>
+    username.length > 2 ? username : "Digite seu usuário do GitHub";
 
   return (
     <>
@@ -77,7 +86,7 @@ export default function HomePage() {
               console.log("submeteu formulario");
 
               // A linha de baixo muda a página sem fazer refresh
-              roteamento.push("/chat");
+              roteamento.push(`/chat?username=${username}`);
 
               // A linha de baixo muda de página, mas faz refresh da página toda
               // window.location.href = "./chat";
@@ -158,13 +167,22 @@ export default function HomePage() {
               minHeight: "240px",
             }}
           >
-            <Image
-              styleSheet={{
+            <div
+              style={{
                 borderRadius: "50%",
-                marginBottom: "16px",
+                display: "block",
+                overflow: "hidden",
+                width: "100%",
               }}
-              src={`https://github.com/${username}.png`}
-            />
+            >
+              <Image
+                width="100%"
+                height="100%"
+                layout="responsive"
+                objectFit="contain"
+                src={getUserImage()}
+              />
+            </div>
             <Text
               variant="body4"
               styleSheet={{
@@ -172,9 +190,11 @@ export default function HomePage() {
                 backgroundColor: appConfig.theme.colors.neutrals[900],
                 padding: "3px 10px",
                 borderRadius: "1000px",
+                textAlign: "center",
+                marginTop: "4px",
               }}
             >
-              {username}
+              {getUsername()}
             </Text>
           </Box>
           {/* Photo Area */}
